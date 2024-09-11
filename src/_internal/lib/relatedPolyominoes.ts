@@ -1,7 +1,6 @@
 import { bitsToB64 } from "./bitsToB64";
 import { canonize } from "./canonize";
 import { Coord } from "./Coord";
-import { isValidName } from "./isValidName";
 import { isValidPolyomino } from "./isValidPolyomino";
 import { moreInfo } from "./moreInfo";
 import { normalize } from "./normalize";
@@ -20,32 +19,32 @@ export function relatedPolyominoes(info: ReturnType<typeof moreInfo>): {
   subtractive: Polyomino[];
   additive: Polyomino[];
 } {
-  const [_, [polyomino]] = info;
+  const [_, [polyomino, name], ...others] = info;
 
-  const others = info.slice(2) as Polyomino[];
   const symmetry: Polyomino[] = [];
-  const symmetrySet = new Set<string>([JSON.stringify(polyomino)]);
+  const symmetrySet = new Set<string>(name);
   for (const other of others) {
-    const key = JSON.stringify(other);
-    if (symmetrySet.has(key)) {
+    if (symmetrySet.has(other[1])) {
       continue;
     } else {
-      symmetrySet.add(key);
+      symmetrySet.add(other[1]);
       symmetry.push(other);
     }
   }
 
   const subtractive: Polyomino[] = [];
-  const subtractiveSet = new Set<string>();
-  for (const coord of polyomino) {
-    const subtracted = canonize(
-      normalize(polyomino.filter((arr) => arr !== coord))
-    );
-    if (isValidPolyomino(subtracted)) {
-      const name = bitsToB64(polyominoToBits(subtracted));
-      if (!subtractiveSet.has(name)) {
-        subtractiveSet.add(name);
-        subtractive.push([subtracted, name]);
+  if (polyomino.length !== 1) {
+    const subtractiveSet = new Set<string>();
+    for (const coord of polyomino) {
+      const subtracted = canonize(
+        normalize(polyomino.filter((arr) => arr !== coord))
+      );
+      if (isValidPolyomino(subtracted)) {
+        const name = bitsToB64(polyominoToBits(subtracted));
+        if (!subtractiveSet.has(name)) {
+          subtractiveSet.add(name);
+          subtractive.push([subtracted, name]);
+        }
       }
     }
   }
@@ -59,7 +58,6 @@ export function relatedPolyominoes(info: ReturnType<typeof moreInfo>): {
       if (
         new Set(added.map((coord) => JSON.stringify(coord))).size ===
           added.length &&
-        isValidName(name) &&
         !additiveSet.has(name)
       ) {
         additiveSet.add(name);

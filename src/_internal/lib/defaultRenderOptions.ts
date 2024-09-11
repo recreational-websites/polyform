@@ -30,9 +30,11 @@ function hsvToRgbHexCode(h: number, s: number, v: number): string {
 
 export function defaultRenderOptions(
   polyomino: Polyomino
-): Pick<
-  RenderToSvgOptions,
-  "fillColorHexCode" | "strokeColorHexCode" | "backgroundColor"
+): Required<
+  Pick<
+    RenderToSvgOptions,
+    "fillColorHexCode" | "strokeColorHexCode" | "backgroundColor"
+  >
 > {
   const [hue, other] = simpleHash(polyominoToBits(canonizeFree(polyomino[0])));
   const fillColorHexCode = hsvToRgbHexCode(

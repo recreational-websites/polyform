@@ -137,16 +137,22 @@ function RelatedInternal({ moreInfo, onPolyominoClick }: RelatedProps) {
             )}
           </TabsContent>
           <TabsContent value="subtractive">
-            <div className={gridClassName}>
-              {subtractive.map((polyomino) => (
-                <PolyominoCard
-                  key={polyomino[1]}
-                  polyomino={polyomino}
-                  label="Subtractive"
-                  onClick={(e) => handlePolyominoClick(e, polyomino)}
-                />
-              ))}
-            </div>
+            {!subtractive.length ? (
+              <div className="text-muted-foreground">
+                No subtractive polyominoes.
+              </div>
+            ) : (
+              <div className={gridClassName}>
+                {subtractive.map((polyomino) => (
+                  <PolyominoCard
+                    key={polyomino[1]}
+                    polyomino={polyomino}
+                    label="Subtractive"
+                    onClick={(e) => handlePolyominoClick(e, polyomino)}
+                  />
+                ))}
+              </div>
+            )}
           </TabsContent>
           <TabsContent value="additive">
             <div className={gridClassName}>
