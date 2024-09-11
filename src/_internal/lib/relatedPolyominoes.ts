@@ -22,7 +22,7 @@ export function relatedPolyominoes(info: ReturnType<typeof moreInfo>): {
   const [_, [polyomino, name], ...others] = info;
 
   const symmetry: Polyomino[] = [];
-  const symmetrySet = new Set<string>(name);
+  const symmetrySet = new Set<string>([name]);
   for (const other of others) {
     if (symmetrySet.has(other[1])) {
       continue;
