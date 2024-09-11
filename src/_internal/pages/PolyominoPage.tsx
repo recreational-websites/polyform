@@ -66,13 +66,9 @@ function RelatedInternal({ moreInfo, onPolyominoClick }: RelatedProps) {
 
   const handlePolyominoClick = useCallback(
     (e: React.MouseEvent, polyomino: PolyominoType) => {
-      if (e.ctrlKey) {
-        return;
-      } else {
-        e.preventDefault();
-        e.stopPropagation();
-        onPolyominoClick?.(polyomino);
-      }
+      e.preventDefault();
+      e.stopPropagation();
+      onPolyominoClick?.(polyomino);
     },
     [onPolyominoClick]
   );
@@ -205,7 +201,7 @@ function SidePane({
       aria-hidden={!isOpen}
     >
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">Polyomino Details</h2>
+        <h2 className="text-2xl font-bold">Polyomino {polyomino[1]}</h2>
         <Button
           variant="ghost"
           size="icon"
@@ -286,7 +282,7 @@ export function PolyominoPage({ moreInfo }: PolyominoPageProps): ReactNode {
       <div className="desktop:flex-1">
         <Card>
           <CardHeader>
-            <CardTitle>Main Polyomino</CardTitle>
+            <h1 className="text-3xl font-bold">Polyomino {polyomino[1]}</h1>
           </CardHeader>
           <CardContent>
             <div className="flex flex-col items-center">

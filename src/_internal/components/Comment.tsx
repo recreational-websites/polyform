@@ -14,10 +14,10 @@ export function Comment({ name }: CommentProps) {
   return (
     <Giscus
       id="comments"
-      repo="recreational-websites/polyomino-catalog"
-      repoId="R_kgDOMtIoQg"
+      repo="recreational-websites/polyomino"
+      repoId="R_kgDOMv7HeA"
       category="Announcements"
-      categoryId="DIC_kwDOMtIoQs4CiRje"
+      categoryId="DIC_kwDOMv7HeM4CiYG7"
       mapping="specific"
       term={name}
       reactionsEnabled="1"

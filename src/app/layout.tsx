@@ -15,7 +15,7 @@ export default function Layout({ children }: PropsWithChildren) {
     >
       <head>
         <meta content="width=device-width, initial-scale=1" name="viewport" />
-        <script src="/mode.js" />
+        <script src="/polyomino/mode.js" />
       </head>
       <body>
         <ModeContextProvider
