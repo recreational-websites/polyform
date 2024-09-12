@@ -1,5 +1,5 @@
 import { bitsToB64 } from "@/_internal/lib/bitsToB64";
-import { complementaryColor } from "@/_internal/lib/complementaryColor";
+import { contrastColor } from "@/_internal/lib/contrastColor";
 import { moreInfo } from "@/_internal/lib/moreInfo";
 import { polyominoToBits } from "@/_internal/lib/polyominoToBits";
 import { ImageResponse } from "next/og";
@@ -33,7 +33,7 @@ export async function GET(
     padding: 8,
     borderRadius: 12,
     background: `#${fillColorHexCode}`,
-    color: `#${complementaryColor(fillColorHexCode)}`,
+    color: `#${contrastColor(fillColorHexCode)}`,
   };
 
   return new ImageResponse(
