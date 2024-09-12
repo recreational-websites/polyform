@@ -1,14 +1,14 @@
 import { canonizeFree } from "./canonizeFree";
+import { Coord } from "./Coord";
 import { hsvToRgb } from "./hsvToRgb";
 import { Polyomino } from "./Polyomino";
-import { polyominoToBits } from "./polyominoToBits";
 import { RenderToSvgOptions } from "./renderToSvg";
 
-function simpleHash(str: string): [hue: number, other: number] {
+function simpleHash(polyomino: Coord[]): [hue: number, other: number] {
   let hash = 42;
 
-  for (let i = 0; i < str.length; i++) {
-    hash = (hash << 3) - hash + str.charCodeAt(i) * 0x42042042;
+  for (const [x, y] of polyomino) {
+    hash = (hash << 3) - hash + x * 0x42042042 + y * 0x424242;
     hash = hash & hash;
   }
 
@@ -36,7 +36,7 @@ export function defaultRenderOptions(
     "fillColorHexCode" | "strokeColorHexCode" | "backgroundColor"
   >
 > {
-  const [hue, other] = simpleHash(polyominoToBits(canonizeFree(polyomino[0])));
+  const [hue, other] = simpleHash(canonizeFree(polyomino[0]));
   const fillColorHexCode = hsvToRgbHexCode(
     hue,
     other / 2 + 0.5,
