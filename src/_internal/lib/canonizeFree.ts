@@ -1,10 +1,23 @@
-import { allCommandsToPolyominoOptions } from "./allCommandsToPolyominoOptions";
-import { allPolyominoToCommandsOptions } from "./allPolyominoToCommandsOptions";
 import { canonize } from "./canonize";
 import { Coord } from "./Coord";
-import { polyominoToCommands } from "./polyominoToCommands";
 import { rotate } from "./rotate";
 import { transpose } from "./transpose";
+
+function comparator(a: Coord[], b: Coord[]) {
+  if (a.length !== b.length) {
+    return a.length - b.length;
+  }
+
+  for (let i = 0; i < a.length; i++) {
+    if (a[i][0] !== b[i][0]) {
+      return a[i][0] - b[i][0];
+    } else if (a[i][1] !== b[i][1]) {
+      return a[i][1] - b[i][1];
+    }
+  }
+
+  return 0;
+}
 
 export function canonizeFree(polyomino: Coord[]): Coord[] {
   const s0 = canonize(polyomino);
@@ -15,54 +28,5 @@ export function canonizeFree(polyomino: Coord[]): Coord[] {
   const t1 = canonize(rotate(t0));
   const t2 = canonize(rotate(t1));
   const t3 = canonize(rotate(t2));
-  const s0b = polyominoToCommands(
-    s0,
-    allCommandsToPolyominoOptions[0],
-    allPolyominoToCommandsOptions[0]
-  ).join();
-  const s1b = polyominoToCommands(
-    s1,
-    allCommandsToPolyominoOptions[0],
-    allPolyominoToCommandsOptions[0]
-  ).join();
-  const s2b = polyominoToCommands(
-    s2,
-    allCommandsToPolyominoOptions[0],
-    allPolyominoToCommandsOptions[0]
-  ).join();
-  const s3b = polyominoToCommands(
-    s3,
-    allCommandsToPolyominoOptions[0],
-    allPolyominoToCommandsOptions[0]
-  ).join();
-  const t0b = polyominoToCommands(
-    t0,
-    allCommandsToPolyominoOptions[0],
-    allPolyominoToCommandsOptions[0]
-  ).join();
-  const t1b = polyominoToCommands(
-    t1,
-    allCommandsToPolyominoOptions[0],
-    allPolyominoToCommandsOptions[0]
-  ).join();
-  const t2b = polyominoToCommands(
-    t2,
-    allCommandsToPolyominoOptions[0],
-    allPolyominoToCommandsOptions[0]
-  ).join();
-  const t3b = polyominoToCommands(
-    t3,
-    allCommandsToPolyominoOptions[0],
-    allPolyominoToCommandsOptions[0]
-  ).join();
-  return [
-    [s0b, s0] as const,
-    [s1b, s1] as const,
-    [s2b, s2] as const,
-    [s3b, s3] as const,
-    [t0b, t0] as const,
-    [t1b, t1] as const,
-    [t2b, t2] as const,
-    [t3b, t3] as const,
-  ].sort(([a], [b]) => (a > b ? 1 : a < b ? -1 : 0))[0][1];
+  return [s0, s1, s2, s3, t0, t1, t2, t3].sort(comparator)[0];
 }
