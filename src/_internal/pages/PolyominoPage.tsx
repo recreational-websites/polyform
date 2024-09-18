@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { X } from "lucide-react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { ReactNode, memo, useCallback, useEffect, useState } from "react";
 import { Comment } from "../components/Comment";
@@ -168,7 +169,7 @@ function RelatedInternal({ moreInfo, onPolyominoClick }: RelatedProps) {
   );
 }
 
-const Related = memo(RelatedInternal);
+const Related = dynamic(Promise.resolve(memo(RelatedInternal)), { ssr: false });
 
 interface SidePaneProps {
   polyomino: PolyominoType;
