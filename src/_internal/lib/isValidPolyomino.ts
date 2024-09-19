@@ -1,6 +1,7 @@
 import { Coord } from "./Coord";
 
 export function isValidPolyomino(polyomino: Coord[]) {
+  if (!polyomino.length) return false;
   const visited: Record<string, boolean | undefined> = Object.fromEntries(
     polyomino.map((tile) => [JSON.stringify(tile), false])
   );

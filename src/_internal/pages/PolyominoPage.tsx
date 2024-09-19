@@ -9,6 +9,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { memo, ReactNode, useCallback, useEffect, useState } from "react";
 import { Comment } from "../components/Comment";
+import { Editor } from "../components/Editor";
 import { Polyomino } from "../components/Polyomino";
 import { Coord } from "../lib/Coord";
 import { Polyomino as PolyominoType } from "../lib/Polyomino";
@@ -64,8 +65,6 @@ interface RelatedProps extends PolyominoPageProps {
 
 function RelatedInternal({ moreInfo, onPolyominoClick }: RelatedProps) {
   const { symmetry, subtractive, additive } = relatedPolyominoes(moreInfo);
-
-  console.log("FUCK");
 
   const handlePolyominoClick = useCallback(
     (e: React.MouseEvent, polyomino: PolyominoType) => {
@@ -297,6 +296,7 @@ export function PolyominoPage({ moreInfo }: PolyominoPageProps): ReactNode {
           </CardContent>
         </Card>
         <Related moreInfo={moreInfo} onPolyominoClick={handlePolyominoClick} />
+        <Editor initialPolyomino={polyomino[0]} />
         <Comment name={polyomino[1]} />
       </div>
       {sidePaneOpened && (
