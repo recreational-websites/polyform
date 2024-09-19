@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { X } from "lucide-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { ReactNode, memo, useCallback, useEffect, useState } from "react";
+import { memo, ReactNode, useCallback, useEffect, useState } from "react";
 import { Comment } from "../components/Comment";
 import { Polyomino } from "../components/Polyomino";
 import { Coord } from "../lib/Coord";
@@ -64,6 +64,8 @@ interface RelatedProps extends PolyominoPageProps {
 
 function RelatedInternal({ moreInfo, onPolyominoClick }: RelatedProps) {
   const { symmetry, subtractive, additive } = relatedPolyominoes(moreInfo);
+
+  console.log("FUCK");
 
   const handlePolyominoClick = useCallback(
     (e: React.MouseEvent, polyomino: PolyominoType) => {
@@ -169,7 +171,9 @@ function RelatedInternal({ moreInfo, onPolyominoClick }: RelatedProps) {
   );
 }
 
-const Related = dynamic(Promise.resolve(memo(RelatedInternal)), { ssr: false });
+const Related = dynamic(() => Promise.resolve(memo(RelatedInternal)), {
+  ssr: false,
+});
 
 interface SidePaneProps {
   polyomino: PolyominoType;
