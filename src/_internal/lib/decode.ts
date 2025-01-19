@@ -1,0 +1,28 @@
+import { b64ToBits } from "./b64ToBits";
+import { canonize } from "./canonize";
+import { Coord } from "./Coord";
+import { normalize } from "./normalize";
+
+export function decode(encoded: string): Coord[] {
+  const bits = ("1" + b64ToBits(encoded)).split("");
+  const visited = new Set<string>();
+  const polyomino = new Set<string>();
+  function visit(coord: Coord) {
+    if (coord[0] < 0 || (coord[0] === 0 && coord[1] < 0)) {
+      return;
+    }
+    if (visited.has(JSON.stringify(coord))) {
+      return;
+    }
+    visited.add(JSON.stringify(coord));
+    if (bits.shift() === "1") {
+      polyomino.add(JSON.stringify(coord));
+      visit([coord[0], coord[1] + 1]);
+      visit([coord[0] + 1, coord[1]]);
+      visit([coord[0], coord[1] - 1]);
+      visit([coord[0] - 1, coord[1]]);
+    }
+  }
+  visit([0, 0]);
+  return canonize(normalize([...polyomino].map((json) => JSON.parse(json))));
+}

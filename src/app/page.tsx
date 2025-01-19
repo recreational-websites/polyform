@@ -4,7 +4,7 @@ import MainPage, {
   generateMetadata as mainGenerateMetaData,
 } from "./[anyForm]/page";
 
-const DEFAULT = "q";
+const DEFAULT = "";
 
 export default async function Page() {
   return MainPage({ params: { anyForm: DEFAULT } });

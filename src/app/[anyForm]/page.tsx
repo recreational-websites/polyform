@@ -1,9 +1,8 @@
 import { Metadata } from "next";
 
-import { bitsToB64 } from "@/_internal/lib/bitsToB64";
+import { encode } from "@/_internal/lib/encode";
 import { isValidName } from "@/_internal/lib/isValidName";
 import { moreInfo } from "@/_internal/lib/moreInfo";
-import { polyominoToBits } from "@/_internal/lib/polyominoToBits";
 import { notFound, redirect } from "next/navigation";
 import { env } from "../../_internal/lib/env";
 import { PolyominoPage } from "../../_internal/pages/PolyominoPage";
@@ -16,7 +15,7 @@ export default async function Page({ params }: Params) {
   const anyForm = params.anyForm;
   const polyomino = isValidName(anyForm);
   if (!polyomino) throw notFound();
-  const name = bitsToB64(polyominoToBits(polyomino));
+  const name = encode(polyomino);
   if (name !== anyForm) throw redirect(`/${name}`);
   const info = moreInfo([polyomino, name]);
 
@@ -27,7 +26,7 @@ export function generateMetadata({ params }: Params): Metadata {
   const anyForm = params.anyForm;
   const polyomino = isValidName(anyForm);
   if (!polyomino) throw notFound();
-  const name = bitsToB64(polyominoToBits(polyomino));
+  const name = encode(polyomino);
   if (name !== anyForm) throw redirect(`/${name}`);
   const [symmetryGroup] = moreInfo([polyomino, name]);
 

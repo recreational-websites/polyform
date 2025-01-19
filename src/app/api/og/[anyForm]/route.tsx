@@ -1,7 +1,6 @@
-import { bitsToB64 } from "@/_internal/lib/bitsToB64";
 import { contrastColor } from "@/_internal/lib/contrastColor";
+import { encode } from "@/_internal/lib/encode";
 import { moreInfo } from "@/_internal/lib/moreInfo";
-import { polyominoToBits } from "@/_internal/lib/polyominoToBits";
 import { ImageResponse } from "next/og";
 import { NextRequest } from "next/server";
 import { defaultRenderOptions } from "../../../../_internal/lib/defaultRenderOptions";
@@ -14,7 +13,7 @@ export async function GET(
 ) {
   const { anyForm } = params;
   const polyomino = isValidName(anyForm);
-  if (!polyomino || bitsToB64(polyominoToBits(polyomino)) !== anyForm) {
+  if (!polyomino || encode(polyomino) !== anyForm) {
     return new Response("Not Found", { status: 404 });
   }
   const [symmetryGroup] = moreInfo([polyomino, anyForm]);

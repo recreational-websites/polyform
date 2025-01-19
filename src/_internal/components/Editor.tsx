@@ -3,11 +3,9 @@ import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { memo, useCallback, useMemo, useState } from "react";
-import { bitsToB64 } from "../lib/bitsToB64";
 import { Coord } from "../lib/Coord";
+import { encode } from "../lib/encode";
 import { isValidPolyomino } from "../lib/isValidPolyomino";
-import { normalize } from "../lib/normalize";
-import { polyominoToBits } from "../lib/polyominoToBits";
 import { range } from "../lib/range";
 
 interface EditorGridProps {
@@ -122,10 +120,7 @@ function EditorInternal({ initialPolyomino }: EditorProps) {
     () => setPolyomino(initialPolyomino),
     [initialPolyomino]
   );
-  const href = useMemo(
-    () => `/${bitsToB64(polyominoToBits(normalize(polyomino)))}`,
-    [polyomino]
-  );
+  const href = useMemo(() => `/${encode(polyomino)}`, [polyomino]);
 
   return (
     <div>

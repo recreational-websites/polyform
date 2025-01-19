@@ -1,6 +1,5 @@
-import { bitsToB64 } from "./bitsToB64";
+import { encode } from "./encode";
 import { Polyomino } from "./Polyomino";
-import { polyominoToBits } from "./polyominoToBits";
 import { rotate } from "./rotate";
 import { SymmetryGroup } from "./SymmetryGroup";
 import { transpose } from "./transpose";
@@ -26,13 +25,13 @@ export function moreInfo(
   const t1p = rotate(t0p);
   const t2p = rotate(t1p);
   const t3p = rotate(t2p);
-  const s1n = bitsToB64(polyominoToBits(s1p));
-  const s2n = bitsToB64(polyominoToBits(s2p));
-  const s3n = bitsToB64(polyominoToBits(s3p));
-  const t0n = bitsToB64(polyominoToBits(t0p));
-  const t1n = bitsToB64(polyominoToBits(t1p));
-  const t2n = bitsToB64(polyominoToBits(t2p));
-  const t3n = bitsToB64(polyominoToBits(t3p));
+  const s1n = encode(s1p);
+  const s2n = encode(s2p);
+  const s3n = encode(s3p);
+  const t0n = encode(t0p);
+  const t1n = encode(t1p);
+  const t2n = encode(t2p);
+  const t3n = encode(t3p);
   const part = [
     s0,
     [s1p, s1n],

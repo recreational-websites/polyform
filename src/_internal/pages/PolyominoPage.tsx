@@ -14,10 +14,9 @@ import { Polyomino } from "../components/Polyomino";
 import { Coord } from "../lib/Coord";
 import { Polyomino as PolyominoType } from "../lib/Polyomino";
 import { SymmetryGroup } from "../lib/SymmetryGroup";
-import { bitsToB64 } from "../lib/bitsToB64";
+import { encode } from "../lib/encode";
 import { moreInfo } from "../lib/moreInfo";
 import { on } from "../lib/on";
-import { polyominoToBits } from "../lib/polyominoToBits";
 import { relatedPolyominoes } from "../lib/relatedPolyominoes";
 
 export interface PolyominoPageProps {
@@ -216,7 +215,7 @@ function SidePane({
         </Button>
       </div>
       <Polyomino polyomino={polyomino} width="100%" height="200px" />
-      <Link href={`/${bitsToB64(polyominoToBits(polyomino[0]))}`}>
+      <Link href={`/${encode(polyomino[0])}`}>
         <Button className="mt-4 w-full">Open in Full Page</Button>
       </Link>
       <Related
