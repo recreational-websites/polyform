@@ -2,14 +2,14 @@ import { Metadata } from "next";
 
 import MainPage, {
   generateMetadata as mainGenerateMetaData,
-} from "./[anyForm]/page";
+} from "./[input]/page";
 
 const DEFAULT = "";
 
 export default async function Page() {
-  return MainPage({ params: { anyForm: DEFAULT } });
+  return MainPage({ params: { input: DEFAULT } });
 }
 
 export function generateMetadata(): Metadata {
-  return mainGenerateMetaData({ params: { anyForm: DEFAULT } });
+  return mainGenerateMetaData({ params: { input: DEFAULT } });
 }

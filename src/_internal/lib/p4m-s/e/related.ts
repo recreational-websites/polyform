@@ -1,26 +1,26 @@
 import { Coord } from "../../common/Coord";
+import { Info } from "../../common/Info";
 import { canonize } from "../canonize";
 import { normalize } from "../normalize";
 import { encode } from "./encode";
-import { isValidPolyomino } from "./isValidPolyomino";
+import { isValid } from "./isValid";
 import { moreInfo } from "./moreInfo";
-import { Polyomino } from "./Polyomino";
 
 const directions: Coord[] = [
-  [0, 1],
-  [0, -1],
   [1, 0],
+  [0, 1],
   [-1, 0],
+  [0, -1],
 ];
 
-export function relatedPolyominoes(info: ReturnType<typeof moreInfo>): {
-  symmetry: Polyomino[];
-  subtractive: Polyomino[];
-  additive: Polyomino[];
+export function related(info: ReturnType<typeof moreInfo>): {
+  symmetry: Info[];
+  subtractive: Info[];
+  additive: Info[];
 } {
-  const [_, [polyomino, name], ...others] = info;
+  const [_, [coords, name], ...others] = info;
 
-  const symmetry: Polyomino[] = [];
+  const symmetry: Info[] = [];
   const symmetrySet = new Set<string>([name]);
   for (const other of others) {
     if (symmetrySet.has(other[1])) {
@@ -31,14 +31,14 @@ export function relatedPolyominoes(info: ReturnType<typeof moreInfo>): {
     }
   }
 
-  const subtractive: Polyomino[] = [];
-  if (polyomino.length !== 1) {
+  const subtractive: Info[] = [];
+  if (coords.length !== 1) {
     const subtractiveSet = new Set<string>();
-    for (const coord of polyomino) {
+    for (const coord of coords) {
       const subtracted = canonize(
-        normalize(polyomino.filter((arr) => arr !== coord))
+        normalize(coords.filter((arr) => arr !== coord))
       );
-      if (isValidPolyomino(subtracted)) {
+      if (isValid(subtracted)) {
         const name = encode(subtracted);
         if (!subtractiveSet.has(name)) {
           subtractiveSet.add(name);
@@ -48,11 +48,11 @@ export function relatedPolyominoes(info: ReturnType<typeof moreInfo>): {
     }
   }
 
-  const additive: Polyomino[] = [];
+  const additive: Info[] = [];
   const additiveSet = new Set<string>();
-  for (const [x, y] of polyomino) {
+  for (const [x, y] of coords) {
     for (const [dirX, dirY] of directions) {
-      const added = canonize(normalize([...polyomino, [x + dirX, y + dirY]]));
+      const added = canonize(normalize([...coords, [x + dirX, y + dirY]]));
       const name = encode(added);
       if (
         new Set(added.map((coord) => JSON.stringify(coord))).size ===

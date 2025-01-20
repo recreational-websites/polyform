@@ -1,11 +1,11 @@
 import { Coord } from "../../common/Coord";
 import { decode } from "./decode";
 
-export function isValidName(anyForm: string): Coord[] | undefined {
+export function isValidName(input: string): Coord[] | undefined {
   try {
-    const polyomino = decode(anyForm);
+    const result = decode(input);
 
-    return polyomino;
+    return result;
   } catch {
     return undefined;
   }

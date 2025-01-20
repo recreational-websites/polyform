@@ -19,12 +19,12 @@ function comparator(a: Coord[], b: Coord[]) {
   return 0;
 }
 
-export function canonizeFree(polyomino: Coord[]): Coord[] {
-  const s0 = canonize(polyomino);
-  const s1 = canonize(rotate(polyomino));
+export function canonizeFree(normalized: Coord[]): Coord[] {
+  const s0 = canonize(normalized);
+  const s1 = canonize(rotate(normalized));
   const s2 = canonize(rotate(s1));
   const s3 = canonize(rotate(s2));
-  const t0 = canonize(transpose(polyomino));
+  const t0 = canonize(transpose(normalized));
   const t1 = canonize(rotate(t0));
   const t2 = canonize(rotate(t1));
   const t3 = canonize(rotate(t2));

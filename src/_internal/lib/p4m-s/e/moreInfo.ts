@@ -1,21 +1,21 @@
+import { Info } from "../../common/Info";
 import { rotate } from "../rotate";
+import { SymmetryGroup } from "../SymmetryGroup";
 import { transpose } from "../transpose";
 import { encode } from "./encode";
-import { Polyomino } from "./Polyomino";
-import { SymmetryGroup } from "./SymmetryGroup";
 
 export function moreInfo(
-  s0: Polyomino
+  s0: Info
 ): [
   symmetryGroup: SymmetryGroup,
-  s0: Polyomino,
-  s1: Polyomino,
-  s2: Polyomino,
-  s3: Polyomino,
-  t0: Polyomino,
-  t1: Polyomino,
-  t2: Polyomino,
-  t3: Polyomino
+  s0: Info,
+  s1: Info,
+  s2: Info,
+  s3: Info,
+  t0: Info,
+  t1: Info,
+  t2: Info,
+  t3: Info
 ] {
   const [s0p, s0n] = s0;
   const s1p = rotate(s0p);

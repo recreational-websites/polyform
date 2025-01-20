@@ -6,7 +6,7 @@ import { normalize } from "../normalize";
 export function decode(encoded: string): Coord[] {
   const bits = ("1" + b64ToBits(encoded)).split("");
   const visited = new Set<string>();
-  const polyomino = new Set<string>();
+  const result = new Set<string>();
   function visit(coord: Coord) {
     if (coord[0] < 0 || (coord[0] === 0 && coord[1] < 0)) {
       return;
@@ -16,7 +16,7 @@ export function decode(encoded: string): Coord[] {
     }
     visited.add(JSON.stringify(coord));
     if (bits.shift() === "1") {
-      polyomino.add(JSON.stringify(coord));
+      result.add(JSON.stringify(coord));
       visit([coord[0], coord[1] + 1]);
       visit([coord[0] + 1, coord[1]]);
       visit([coord[0], coord[1] - 1]);
@@ -24,5 +24,5 @@ export function decode(encoded: string): Coord[] {
     }
   }
   visit([0, 0]);
-  return canonize(normalize([...polyomino].map((json) => JSON.parse(json))));
+  return canonize(normalize([...result].map((json) => JSON.parse(json))));
 }

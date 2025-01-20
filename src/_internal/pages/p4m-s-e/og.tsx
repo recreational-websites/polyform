@@ -1,17 +1,17 @@
-import { defaultRenderOptions } from "@/_internal/lib/p4m-s/e/defaultRenderOptions";
+import { Info } from "@/_internal/lib/common/Info";
+import { defaultRenderOptions } from "@/_internal/lib/p4m-s/defaultRenderOptions";
 import { moreInfo } from "@/_internal/lib/p4m-s/e/moreInfo";
-import { Polyomino } from "@/_internal/lib/p4m-s/e/Polyomino";
 import { renderToSvg } from "@/_internal/lib/p4m-s/renderToSvg";
 import { contrastColor } from "@/_internal/lib/util/contrastColor";
 import { ImageResponse } from "next/og";
 
-export function og([polyomino, name]: Polyomino) {
-  const [symmetryGroup] = moreInfo([polyomino, name]);
+export function og([coords, name]: Info) {
+  const [symmetryGroup] = moreInfo([coords, name]);
 
   const { backgroundColor, fillColorHexCode, strokeColorHexCode } =
-    defaultRenderOptions([polyomino, name]);
+    defaultRenderOptions([coords, name]);
 
-  const svg = renderToSvg(polyomino, {
+  const svg = renderToSvg(coords, {
     fillColorHexCode,
     strokeColorHexCode,
     contain: [630, 630],
@@ -54,7 +54,7 @@ export function og([polyomino, name]: Polyomino) {
             wordBreak: "break-all",
           }}
         >
-          Polyomino
+          p4m s edge
           <div style={{ padding: 24 }}>{name}</div>
           <div
             style={{
@@ -66,7 +66,7 @@ export function og([polyomino, name]: Polyomino) {
             }}
           >
             <span style={badgeStyle}>Symmetry group: {symmetryGroup}</span>
-            <span style={badgeStyle}>Tile count: {polyomino.length}</span>
+            <span style={badgeStyle}>Tile count: {coords.length}</span>
             {[
               "All",
               "Rotation2FoldMirror90",

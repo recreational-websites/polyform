@@ -1,16 +1,16 @@
 import { encode } from "@/_internal/lib/p4m-s/e/encode";
 import { isValidName } from "@/_internal/lib/p4m-s/e/isValidName";
-import { og } from "@/_internal/pages/api/og";
+import { og } from "@/_internal/pages/p4m-s-e/og";
 import { NextRequest } from "next/server";
 
 export async function GET(
   _request: NextRequest,
-  { params }: { params: { anyForm: string } }
+  { params }: { params: { input: string } }
 ) {
-  const { anyForm } = params;
-  const polyomino = isValidName(anyForm);
-  if (!polyomino || encode(polyomino) !== anyForm) {
+  const { input } = params;
+  const coords = isValidName(input);
+  if (!coords || encode(coords) !== input) {
     return new Response("Not Found", { status: 404 });
   }
-  return og([polyomino, anyForm]);
+  return og([coords, input]);
 }

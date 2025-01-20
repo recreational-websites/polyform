@@ -13,7 +13,7 @@ export interface RenderToSvgOptions {
 }
 
 export function renderToSvg(
-  polyomino: Coord[],
+  coords: Coord[],
   {
     cellSize = 100,
     backgroundColor,
@@ -25,10 +25,10 @@ export function renderToSvg(
     contain,
   }: RenderToSvgOptions = {}
 ): string {
-  const minX = Math.min(...polyomino.map((c) => c[0]));
-  const minY = Math.min(...polyomino.map((c) => c[1]));
-  const maxX = Math.max(...polyomino.map((c) => c[0]));
-  const maxY = Math.max(...polyomino.map((c) => c[1]));
+  const minX = Math.min(...coords.map((c) => c[0]));
+  const minY = Math.min(...coords.map((c) => c[1]));
+  const maxX = Math.max(...coords.map((c) => c[0]));
+  const maxY = Math.max(...coords.map((c) => c[1]));
 
   if (fillColorHexCode && !strokeColorHexCode) {
     strokeColorHexCode = complementaryColor(fillColorHexCode);
@@ -105,7 +105,7 @@ export function renderToSvg(
     );
   }
 
-  polyomino.forEach(([x, y]) => {
+  coords.forEach(([x, y]) => {
     const rectX = offset + (x - minX) * cellSize;
     const rectY = offset + (y - minY) * cellSize;
     svgParts.push(

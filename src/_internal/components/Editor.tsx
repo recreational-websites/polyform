@@ -5,23 +5,23 @@ import Link from "next/link";
 import { memo, useCallback, useMemo, useState } from "react";
 import { Coord } from "../lib/common/Coord";
 import { encode } from "../lib/p4m-s/e/encode";
-import { isValidPolyomino } from "../lib/p4m-s/e/isValidPolyomino";
+import { isValid } from "../lib/p4m-s/e/isValid";
 import { range } from "../lib/range";
 
 interface EditorGridProps {
-  polyomino: Coord[];
-  setPolyomino: (polyomino: Coord[]) => void;
+  coords: Coord[];
+  setCoords: (coords: Coord[]) => void;
 }
 
 function handler(
-  polyomino: Coord[],
-  setPolyomino: (polyomino: Coord[]) => void,
+  coords: Coord[],
+  setCoords: (coords: Coord[]) => void,
   x: number,
   y: number
 ) {
-  if (!polyomino.find((coord) => coord[0] === x && coord[1] === y)) {
+  if (!coords.find((coord) => coord[0] === x && coord[1] === y)) {
     if (
-      !polyomino.find(
+      !coords.find(
         (coord) =>
           (coord[0] === x + 1 && coord[1] === y) ||
           (coord[0] === x - 1 && coord[1] === y) ||
@@ -31,29 +31,27 @@ function handler(
     ) {
       return undefined;
     } else {
-      return () => setPolyomino([...polyomino, [x, y]]);
+      return () => setCoords([...coords, [x, y]]);
     }
   } else {
-    const filtered = polyomino.filter(
-      (coord) => coord[0] !== x || coord[1] !== y
-    );
-    if (!isValidPolyomino(filtered)) {
+    const filtered = coords.filter((coord) => coord[0] !== x || coord[1] !== y);
+    if (!isValid(filtered)) {
       return undefined;
     } else {
-      return () => setPolyomino(filtered);
+      return () => setCoords(filtered);
     }
   }
 }
 
-function EditorGridInternal({ polyomino, setPolyomino }: EditorGridProps) {
+function EditorGridInternal({ coords, setCoords }: EditorGridProps) {
   const [minX, minY, maxX, maxY, scale] = useMemo(() => {
-    const minX = Math.min(...polyomino.map(([x]) => x));
-    const minY = Math.min(...polyomino.map(([_, y]) => y));
-    const maxX = Math.max(...polyomino.map(([x]) => x));
-    const maxY = Math.max(...polyomino.map(([_, y]) => y));
+    const minX = Math.min(...coords.map(([x]) => x));
+    const minY = Math.min(...coords.map(([_, y]) => y));
+    const maxX = Math.max(...coords.map(([x]) => x));
+    const maxY = Math.max(...coords.map(([_, y]) => y));
     const scale = `${100 / Math.max(maxX - minX + 3, maxY - minY + 3)}%`;
     return [minX, minY, maxX, maxY, scale];
-  }, [polyomino]);
+  }, [coords]);
 
   const rowStyle = useMemo(
     () => ({
@@ -79,8 +77,8 @@ function EditorGridInternal({ polyomino, setPolyomino }: EditorGridProps) {
         {[...range(minY - 1, maxY + 2)].map((y) => (
           <div key={y} style={rowStyle}>
             {[...range(minX - 1, maxX + 2)].map((x) => {
-              const state = handler(polyomino, setPolyomino, x, y);
-              const bgClass = polyomino.find(
+              const state = handler(coords, setCoords, x, y);
+              const bgClass = coords.find(
                 (coord) => coord[0] === x && coord[1] === y
               )
                 ? "bg-foreground"
@@ -111,20 +109,20 @@ function EditorGridInternal({ polyomino, setPolyomino }: EditorGridProps) {
 const EditorGrid = memo(EditorGridInternal);
 
 export interface EditorProps {
-  initialPolyomino: Coord[];
+  initialCoords: Coord[];
 }
 
-function EditorInternal({ initialPolyomino }: EditorProps) {
-  const [polyomino, setPolyomino] = useState(initialPolyomino);
+function EditorInternal({ initialCoords }: EditorProps) {
+  const [coords, setCoords] = useState(initialCoords);
   const handleReset = useCallback(
-    () => setPolyomino(initialPolyomino),
-    [initialPolyomino]
+    () => setCoords(initialCoords),
+    [initialCoords]
   );
-  const href = useMemo(() => `/${encode(polyomino)}`, [polyomino]);
+  const href = useMemo(() => `/${encode(coords)}`, [coords]);
 
   return (
     <div>
-      <EditorGrid polyomino={polyomino} setPolyomino={(a) => setPolyomino(a)} />
+      <EditorGrid coords={coords} setCoords={(a) => setCoords(a)} />
       <div className="w-full flex justify-center gap-4">
         <Button onClick={handleReset}>Reset</Button>
         <Link href={href}>

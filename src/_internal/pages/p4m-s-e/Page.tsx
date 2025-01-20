@@ -8,18 +8,18 @@ import { X } from "lucide-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { memo, ReactNode, useCallback, useEffect, useState } from "react";
-import { Comment } from "../components/Comment";
-import { Editor } from "../components/Editor";
-import { Polyomino } from "../components/Polyomino";
-import { Coord } from "../lib/common/Coord";
-import { on } from "../lib/on";
-import { encode } from "../lib/p4m-s/e/encode";
-import { moreInfo } from "../lib/p4m-s/e/moreInfo";
-import { Polyomino as PolyominoType } from "../lib/p4m-s/e/Polyomino";
-import { relatedPolyominoes } from "../lib/p4m-s/e/relatedPolyominoes";
-import { SymmetryGroup } from "../lib/p4m-s/e/SymmetryGroup";
+import { Comment } from "../../components/Comment";
+import { Editor } from "../../components/Editor";
+import { Item } from "../../components/Item";
+import { Coord } from "../../lib/common/Coord";
+import { Info } from "../../lib/common/Info";
+import { on } from "../../lib/on";
+import { encode } from "../../lib/p4m-s/e/encode";
+import { moreInfo } from "../../lib/p4m-s/e/moreInfo";
+import { related } from "../../lib/p4m-s/e/related";
+import { SymmetryGroup } from "../../lib/p4m-s/SymmetryGroup";
 
-export interface PolyominoPageProps {
+export interface PageProps {
   moreInfo: ReturnType<typeof moreInfo>;
 }
 
@@ -36,21 +36,16 @@ const moreInfoIndexToName = [
   "flip Y",
 ];
 
-interface PolyominoCardProps {
-  polyomino: PolyominoType;
+interface ItemCardProps {
+  info: Info;
   label: string;
   onClick?: (e: React.MouseEvent) => void;
 }
 
-function PolyominoCard({ polyomino, label, onClick }: PolyominoCardProps) {
+function ItemCard({ info, label, onClick }: ItemCardProps) {
   return (
     <div className="flex flex-col items-center">
-      <Polyomino
-        onClick={onClick}
-        polyomino={polyomino}
-        width={100}
-        height={100}
-      />
+      <Item onClick={onClick} info={info} width={100} height={100} />
       <Badge variant="secondary" className="mt-2">
         {label}
       </Badge>
@@ -58,26 +53,26 @@ function PolyominoCard({ polyomino, label, onClick }: PolyominoCardProps) {
   );
 }
 
-interface RelatedProps extends PolyominoPageProps {
-  onPolyominoClick?: (polyomino: PolyominoType) => void;
+interface RelatedProps extends PageProps {
+  onItemClick?: (info: Info) => void;
 }
 
-function RelatedInternal({ moreInfo, onPolyominoClick }: RelatedProps) {
-  const { symmetry, subtractive, additive } = relatedPolyominoes(moreInfo);
+function RelatedInternal({ moreInfo, onItemClick }: RelatedProps) {
+  const { symmetry, subtractive, additive } = related(moreInfo);
 
-  const handlePolyominoClick = useCallback(
-    (e: React.MouseEvent, polyomino: PolyominoType) => {
+  const handleItemClick = useCallback(
+    (e: React.MouseEvent, info: Info) => {
       e.preventDefault();
       e.stopPropagation();
-      onPolyominoClick?.(polyomino);
+      onItemClick?.(info);
     },
-    [onPolyominoClick]
+    [onItemClick]
   );
 
   return (
     <Card className="mt-6">
       <CardHeader>
-        <CardTitle>Related Polyominoes</CardTitle>
+        <CardTitle>Related p4m s edge items</CardTitle>
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="all">
@@ -89,45 +84,43 @@ function RelatedInternal({ moreInfo, onPolyominoClick }: RelatedProps) {
           </TabsList>
           <TabsContent value="all">
             <div className={gridClassName}>
-              {symmetry.map((polyomino) => (
-                <PolyominoCard
-                  key={polyomino[1]}
-                  polyomino={polyomino}
-                  label={moreInfoIndexToName[moreInfo.indexOf(polyomino) - 2]}
-                  onClick={(e) => handlePolyominoClick(e, polyomino)}
+              {symmetry.map((item) => (
+                <ItemCard
+                  key={item[1]}
+                  info={item}
+                  label={moreInfoIndexToName[moreInfo.indexOf(item) - 2]}
+                  onClick={(e) => handleItemClick(e, item)}
                 />
               ))}
-              {subtractive.map((polyomino) => (
-                <PolyominoCard
-                  key={polyomino[1]}
-                  polyomino={polyomino}
+              {subtractive.map((item) => (
+                <ItemCard
+                  key={item[1]}
+                  info={item}
                   label="Subtractive"
-                  onClick={(e) => handlePolyominoClick(e, polyomino)}
+                  onClick={(e) => handleItemClick(e, item)}
                 />
               ))}
-              {additive.map((polyomino) => (
-                <PolyominoCard
-                  key={polyomino[1]}
-                  polyomino={polyomino}
+              {additive.map((item) => (
+                <ItemCard
+                  key={item[1]}
+                  info={item}
                   label="Additive"
-                  onClick={(e) => handlePolyominoClick(e, polyomino)}
+                  onClick={(e) => handleItemClick(e, item)}
                 />
               ))}
             </div>
           </TabsContent>
           <TabsContent value="symmetry">
             {!symmetry.length ? (
-              <div className="text-muted-foreground">
-                No symmetry polyominoes.
-              </div>
+              <div className="text-muted-foreground">No symmetry items.</div>
             ) : (
               <div className={gridClassName}>
-                {symmetry.map((polyomino) => (
-                  <PolyominoCard
-                    key={polyomino[1]}
-                    polyomino={polyomino}
-                    label={moreInfoIndexToName[moreInfo.indexOf(polyomino) - 2]}
-                    onClick={(e) => handlePolyominoClick(e, polyomino)}
+                {symmetry.map((item) => (
+                  <ItemCard
+                    key={item[1]}
+                    info={item}
+                    label={moreInfoIndexToName[moreInfo.indexOf(item) - 2]}
+                    onClick={(e) => handleItemClick(e, item)}
                   />
                 ))}
               </div>
@@ -135,17 +128,15 @@ function RelatedInternal({ moreInfo, onPolyominoClick }: RelatedProps) {
           </TabsContent>
           <TabsContent value="subtractive">
             {!subtractive.length ? (
-              <div className="text-muted-foreground">
-                No subtractive polyominoes.
-              </div>
+              <div className="text-muted-foreground">No subtractive items.</div>
             ) : (
               <div className={gridClassName}>
-                {subtractive.map((polyomino) => (
-                  <PolyominoCard
-                    key={polyomino[1]}
-                    polyomino={polyomino}
+                {subtractive.map((item) => (
+                  <ItemCard
+                    key={item[1]}
+                    info={item}
                     label="Subtractive"
-                    onClick={(e) => handlePolyominoClick(e, polyomino)}
+                    onClick={(e) => handleItemClick(e, item)}
                   />
                 ))}
               </div>
@@ -153,12 +144,12 @@ function RelatedInternal({ moreInfo, onPolyominoClick }: RelatedProps) {
           </TabsContent>
           <TabsContent value="additive">
             <div className={gridClassName}>
-              {additive.map((polyomino) => (
-                <PolyominoCard
-                  key={polyomino[1]}
-                  polyomino={polyomino}
+              {additive.map((item) => (
+                <ItemCard
+                  key={item[1]}
+                  info={item}
                   label="Additive"
-                  onClick={(e) => handlePolyominoClick(e, polyomino)}
+                  onClick={(e) => handleItemClick(e, item)}
                 />
               ))}
             </div>
@@ -174,16 +165,16 @@ const Related = dynamic(() => Promise.resolve(memo(RelatedInternal)), {
 });
 
 interface SidePaneProps {
-  polyomino: PolyominoType;
+  info: Info;
   onClose: () => void;
-  onPolyominoClick: (polyomino: PolyominoType) => void;
+  onItemClick: (item: Info) => void;
   isOpen: boolean;
 }
 
 function SidePane({
-  polyomino,
+  info,
   onClose,
-  onPolyominoClick,
+  onItemClick: onItemClick,
   isOpen,
 }: SidePaneProps) {
   useEffect(() => {
@@ -204,7 +195,7 @@ function SidePane({
       aria-hidden={!isOpen}
     >
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">Polyomino {polyomino[1]}</h2>
+        <h2 className="text-2xl font-bold">p4m s edge {info[1]}</h2>
         <Button
           variant="ghost"
           size="icon"
@@ -214,28 +205,25 @@ function SidePane({
           <X className="h-4 w-4" />
         </Button>
       </div>
-      <Polyomino polyomino={polyomino} width="100%" height="200px" />
-      <Link href={`/${encode(polyomino[0])}`}>
+      <Item info={info} width="100%" height="200px" />
+      <Link href={`/${encode(info[0])}`}>
         <Button className="mt-4 w-full">Open in Full Page</Button>
       </Link>
-      <Related
-        moreInfo={moreInfo(polyomino)}
-        onPolyominoClick={onPolyominoClick}
-      />
+      <Related moreInfo={moreInfo(info)} onItemClick={onItemClick} />
     </div>
   );
 }
 
 interface BadgesProps {
-  polyomino: Coord[];
+  coords: Coord[];
   symmetryGroup: SymmetryGroup;
 }
 
-function Badges({ polyomino, symmetryGroup }: BadgesProps) {
+function Badges({ coords, symmetryGroup }: BadgesProps) {
   return (
     <div className="flex flex-wrap gap-x-4">
       <Badge className="mt-4">Symmetry Group: {symmetryGroup}</Badge>
-      <Badge className="mt-4">Tile count: {polyomino.length}</Badge>
+      <Badge className="mt-4">Tile count: {coords.length}</Badge>
       {[
         "All",
         "Rotation2FoldMirror90",
@@ -257,20 +245,15 @@ function Badges({ polyomino, symmetryGroup }: BadgesProps) {
   );
 }
 
-export function PolyominoPage({ moreInfo }: PolyominoPageProps): ReactNode {
-  const [symmetryGroup, polyomino] = moreInfo;
+export function Page({ moreInfo }: PageProps): ReactNode {
+  const [symmetryGroup, coords] = moreInfo;
   const [sidePaneOpened, setSidePaneOpened] = useState(false);
-  const [sidePanePolyomino, setSidePanePolyomino] = useState<PolyominoType>(
-    moreInfo[1]
-  );
+  const [sidePaneItem, setSidePaneItem] = useState<Info>(moreInfo[1]);
 
-  const handlePolyominoClick = useCallback(
-    (clickedPolyomino: PolyominoType) => {
-      setSidePanePolyomino(clickedPolyomino);
-      setSidePaneOpened(true);
-    },
-    []
-  );
+  const handleItemClick = useCallback((clickedItem: Info) => {
+    setSidePaneItem(clickedItem);
+    setSidePaneOpened(true);
+  }, []);
 
   const handleCloseSidePane = useCallback(() => {
     setSidePaneOpened(false);
@@ -285,18 +268,18 @@ export function PolyominoPage({ moreInfo }: PolyominoPageProps): ReactNode {
       <div className="desktop:flex-1">
         <Card>
           <CardHeader>
-            <h1 className="text-3xl font-bold">Polyomino {polyomino[1]}</h1>
+            <h1 className="text-3xl font-bold">p4m s edge {coords[1]}</h1>
           </CardHeader>
           <CardContent>
             <div className="flex flex-col items-center">
-              <Polyomino polyomino={polyomino} width="40vw" height="40vw" />
-              <Badges polyomino={polyomino[0]} symmetryGroup={symmetryGroup} />
+              <Item info={coords} width="40vw" height="40vw" />
+              <Badges coords={coords[0]} symmetryGroup={symmetryGroup} />
             </div>
           </CardContent>
         </Card>
-        <Related moreInfo={moreInfo} onPolyominoClick={handlePolyominoClick} />
-        <Editor initialPolyomino={polyomino[0]} />
-        <Comment name={polyomino[1]} />
+        <Related moreInfo={moreInfo} onItemClick={handleItemClick} />
+        <Editor initialCoords={coords[0]} />
+        <Comment name={coords[1]} />
       </div>
       {sidePaneOpened && (
         <div
@@ -306,9 +289,9 @@ export function PolyominoPage({ moreInfo }: PolyominoPageProps): ReactNode {
         />
       )}
       <SidePane
-        polyomino={sidePanePolyomino}
+        info={sidePaneItem}
         onClose={handleCloseSidePane}
-        onPolyominoClick={handlePolyominoClick}
+        onItemClick={handleItemClick}
         isOpen={sidePaneOpened}
       />
     </div>

@@ -1,25 +1,25 @@
 import Link from "next/link";
 import { memo, MouseEvent } from "react";
-import { defaultRenderOptions } from "../lib/p4m-s/e/defaultRenderOptions";
-import { Polyomino as PolyominoType } from "../lib/p4m-s/e/Polyomino";
+import { Info } from "../lib/common/Info";
+import { defaultRenderOptions } from "../lib/p4m-s/defaultRenderOptions";
 import { renderToSvg, RenderToSvgOptions } from "../lib/p4m-s/renderToSvg";
 
-export interface PolyominoProps extends RenderToSvgOptions {
-  polyomino: PolyominoType;
+export interface ItemProps extends RenderToSvgOptions {
+  info: Info;
   width: string | number;
   height: string | number;
   onClick?: (e: MouseEvent) => void;
 }
 
-function PolyominoInternal(props: PolyominoProps) {
-  const { polyomino, width, height, onClick } = props;
-  const svgString = renderToSvg(polyomino[0], {
-    ...defaultRenderOptions(polyomino),
+function ItemInternal(props: ItemProps) {
+  const { info, width, height, onClick } = props;
+  const svgString = renderToSvg(info[0], {
+    ...defaultRenderOptions(info),
     backgroundColor: "transparent",
     ...props,
     skipSize: true,
   });
-  const href = `/${polyomino[1]}`;
+  const href = `/${info[1]}`;
 
   return (
     <Link
@@ -31,10 +31,10 @@ function PolyominoInternal(props: PolyominoProps) {
         className="w-full h-full"
         style={{ width, height }}
         src={`data:image/svg+xml;base64,${btoa(svgString)}`}
-        alt={`Polyomino ${polyomino[1]}`}
+        alt={`p4m s edge ${info[1]}`}
       />
     </Link>
   );
 }
 
-export const Polyomino = memo(PolyominoInternal);
+export const Item = memo(ItemInternal);

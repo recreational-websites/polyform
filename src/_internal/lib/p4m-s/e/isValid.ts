@@ -1,9 +1,9 @@
 import { Coord } from "../../common/Coord";
 
-export function isValidPolyomino(polyomino: Coord[]) {
-  if (!polyomino.length) return false;
+export function isValid(coords: Coord[]) {
+  if (!coords.length) return false;
   const visited: Record<string, boolean | undefined> = Object.fromEntries(
-    polyomino.map((tile) => [JSON.stringify(tile), false])
+    coords.map((tile) => [JSON.stringify(tile), false])
   );
   function visit(str: string) {
     if (visited[str] !== false) {
@@ -16,6 +16,6 @@ export function isValidPolyomino(polyomino: Coord[]) {
     visit(JSON.stringify([x, y + 1]));
     visit(JSON.stringify([x, y - 1]));
   }
-  visit(JSON.stringify(polyomino[0]));
-  return polyomino.every((tile) => visited[JSON.stringify(tile)]);
+  visit(JSON.stringify(coords[0]));
+  return coords.every((tile) => visited[JSON.stringify(tile)]);
 }
