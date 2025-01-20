@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { memo, MouseEvent } from "react";
-import { Info } from "../lib/common/Info";
-import { defaultRenderOptions } from "../lib/p4m-s/defaultRenderOptions";
-import { renderToSvg, RenderToSvgOptions } from "../lib/p4m-s/renderToSvg";
+import { Info } from "../../lib/common/Info";
+import { defaultRenderOptions } from "../../lib/p4m-s/defaultRenderOptions";
+import { renderToSvg, RenderToSvgOptions } from "../../lib/p4m-s/renderToSvg";
 
 export interface ItemProps extends RenderToSvgOptions {
   info: Info;
@@ -19,7 +19,7 @@ function ItemInternal(props: ItemProps) {
     ...props,
     skipSize: true,
   });
-  const href = `/${info[1]}`;
+  const href = `/p4m-s-e/${info[1]}`;
 
   return (
     <Link

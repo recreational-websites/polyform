@@ -8,16 +8,16 @@ import { X } from "lucide-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { memo, ReactNode, useCallback, useEffect, useState } from "react";
-import { Comment } from "../../components/p4m-s-e/Comment";
-import { Editor } from "../../components/p4m-s-e/Editor";
-import { Item } from "../../components/p4m-s-e/Item";
+import { Comment } from "../../components/p4m-s-v/Comment";
+import { Editor } from "../../components/p4m-s-v/Editor";
+import { Item } from "../../components/p4m-s-v/Item";
 import { Coord } from "../../lib/common/Coord";
 import { Info } from "../../lib/common/Info";
 import { on } from "../../lib/on";
-import { encode } from "../../lib/p4m-s/e/encode";
-import { moreInfo } from "../../lib/p4m-s/e/moreInfo";
-import { related } from "../../lib/p4m-s/e/related";
 import { SymmetryGroup } from "../../lib/p4m-s/SymmetryGroup";
+import { encode } from "../../lib/p4m-s/v/encode";
+import { moreInfo } from "../../lib/p4m-s/v/moreInfo";
+import { related } from "../../lib/p4m-s/v/related";
 
 export interface PageProps {
   moreInfo: ReturnType<typeof moreInfo>;
@@ -72,7 +72,7 @@ function RelatedInternal({ moreInfo, onItemClick }: RelatedProps) {
   return (
     <Card className="mt-6">
       <CardHeader>
-        <CardTitle>Related p4m s edge items</CardTitle>
+        <CardTitle>Related p4m s vertex items</CardTitle>
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="all">
@@ -195,7 +195,7 @@ function SidePane({
       aria-hidden={!isOpen}
     >
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">p4m s edge {info[1]}</h2>
+        <h2 className="text-2xl font-bold">p4m s vertex {info[1]}</h2>
         <Button
           variant="ghost"
           size="icon"
@@ -206,7 +206,7 @@ function SidePane({
         </Button>
       </div>
       <Item info={info} width="100%" height="200px" />
-      <Link href={`/p4m-s-e/${encode(info[0])}`}>
+      <Link href={`/p4m-s-v/${encode(info[0])}`}>
         <Button className="mt-4 w-full">Open in Full Page</Button>
       </Link>
       <Related moreInfo={moreInfo(info)} onItemClick={onItemClick} />
@@ -268,7 +268,7 @@ export function Page({ moreInfo }: PageProps): ReactNode {
       <div className="desktop:flex-1">
         <Card>
           <CardHeader>
-            <h1 className="text-3xl font-bold">p4m s edge {coords[1]}</h1>
+            <h1 className="text-3xl font-bold">p4m s vertex {coords[1]}</h1>
           </CardHeader>
           <CardContent>
             <div className="flex flex-col items-center">

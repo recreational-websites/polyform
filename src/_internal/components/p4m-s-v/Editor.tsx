@@ -3,10 +3,10 @@ import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { memo, useCallback, useMemo, useState } from "react";
-import { Coord } from "../lib/common/Coord";
-import { encode } from "../lib/p4m-s/e/encode";
-import { isValid } from "../lib/p4m-s/e/isValid";
-import { range } from "../lib/range";
+import { Coord } from "../../lib/common/Coord";
+import { encode } from "../../lib/p4m-s/v/encode";
+import { isValid } from "../../lib/p4m-s/v/isValid";
+import { range } from "../../lib/range";
 
 interface EditorGridProps {
   coords: Coord[];
@@ -26,7 +26,11 @@ function handler(
           (coord[0] === x + 1 && coord[1] === y) ||
           (coord[0] === x - 1 && coord[1] === y) ||
           (coord[0] === x && coord[1] === y + 1) ||
-          (coord[0] === x && coord[1] === y - 1)
+          (coord[0] === x && coord[1] === y - 1) ||
+          (coord[0] === x + 1 && coord[1] === y + 1) ||
+          (coord[0] === x - 1 && coord[1] === y + 1) ||
+          (coord[0] === x + 1 && coord[1] === y - 1) ||
+          (coord[0] === x - 1 && coord[1] === y - 1)
       )
     ) {
       return undefined;
@@ -118,7 +122,7 @@ function EditorInternal({ initialCoords }: EditorProps) {
     () => setCoords(initialCoords),
     [initialCoords]
   );
-  const href = useMemo(() => `/${encode(coords)}`, [coords]);
+  const href = useMemo(() => `/p4m-s-v/${encode(coords)}`, [coords]);
 
   return (
     <div>

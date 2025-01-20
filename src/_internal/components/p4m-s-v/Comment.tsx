@@ -11,6 +11,7 @@ export interface CommentProps {
 
 export function Comment({ name }: CommentProps) {
   const { theme } = useContext(ModeContext);
+  const term = `p4m-s-v-${name}`;
   return (
     <Giscus
       id="comments"
@@ -19,7 +20,7 @@ export function Comment({ name }: CommentProps) {
       category="Announcements"
       categoryId="DIC_kwDOMv7HeM4CiYG7"
       mapping="specific"
-      term={name}
+      term={term}
       reactionsEnabled="1"
       emitMetadata="0"
       inputPosition="top"
