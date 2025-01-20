@@ -15,7 +15,7 @@ export function Comment({ name }: CommentProps) {
   return (
     <Giscus
       id="comments"
-      repo="recreational-websites/polyomino"
+      repo="recreational-websites/polyform"
       repoId="R_kgDOMv7HeA"
       category="Announcements"
       categoryId="DIC_kwDOMv7HeM4CiYG7"

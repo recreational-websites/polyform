@@ -2,7 +2,7 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  basePath: "/polyomino",
+  basePath: "/polyform",
 };
 
 module.exports = nextConfig;

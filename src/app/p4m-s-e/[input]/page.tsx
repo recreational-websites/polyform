@@ -39,7 +39,7 @@ export function generateMetadata({ params }: Params): Metadata {
     description,
     openGraph: {
       title,
-      images: `${env("METADATA_BASE")}/polyomino/p4m-s-e/api/og/${input}`,
+      images: `${env("METADATA_BASE")}/polyform/p4m-s-e/api/og/${input}`,
       description,
     },
   };
