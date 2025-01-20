@@ -11,7 +11,7 @@ export interface CommentProps {
 
 export function Comment({ name }: CommentProps) {
   const { theme } = useContext(ModeContext);
-  const term = `p4m-s-v-${name}`;
+  const term = `p4m-s-v/${name}`;
   return (
     <Giscus
       id="comments"
