@@ -1,8 +1,8 @@
+import { rotate } from "../rotate";
+import { transpose } from "../transpose";
 import { encode } from "./encode";
 import { Polyomino } from "./Polyomino";
-import { rotate } from "./rotate";
 import { SymmetryGroup } from "./SymmetryGroup";
-import { transpose } from "./transpose";
 
 export function moreInfo(
   s0: Polyomino

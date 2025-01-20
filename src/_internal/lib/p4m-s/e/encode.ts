@@ -1,5 +1,5 @@
-import { bitsToB64 } from "./bitsToB64";
-import { Coord } from "./Coord";
+import { bitsToB64 } from "../../common/bitsToB64";
+import { Coord } from "../../common/Coord";
 
 export function encode(anyPolyomino: Coord[]): string {
   const visited = new Set<string>();

@@ -3,9 +3,9 @@ import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { memo, useCallback, useMemo, useState } from "react";
-import { Coord } from "../lib/Coord";
-import { encode } from "../lib/encode";
-import { isValidPolyomino } from "../lib/isValidPolyomino";
+import { Coord } from "../lib/common/Coord";
+import { encode } from "../lib/p4m-s/e/encode";
+import { isValidPolyomino } from "../lib/p4m-s/e/isValidPolyomino";
 import { range } from "../lib/range";
 
 interface EditorGridProps {

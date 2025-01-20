@@ -1,5 +1,5 @@
-import { complementaryColor } from "./complementaryColor";
-import { Coord } from "./Coord";
+import { Coord } from "../common/Coord";
+import { complementaryColor } from "../util/complementaryColor";
 
 export interface RenderToSvgOptions {
   cellSize?: number;

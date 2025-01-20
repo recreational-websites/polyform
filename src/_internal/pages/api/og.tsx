@@ -1,8 +1,8 @@
-import { contrastColor } from "@/_internal/lib/contrastColor";
-import { defaultRenderOptions } from "@/_internal/lib/defaultRenderOptions";
-import { moreInfo } from "@/_internal/lib/moreInfo";
-import { Polyomino } from "@/_internal/lib/Polyomino";
-import { renderToSvg } from "@/_internal/lib/renderToSvg";
+import { defaultRenderOptions } from "@/_internal/lib/p4m-s/e/defaultRenderOptions";
+import { moreInfo } from "@/_internal/lib/p4m-s/e/moreInfo";
+import { Polyomino } from "@/_internal/lib/p4m-s/e/Polyomino";
+import { renderToSvg } from "@/_internal/lib/p4m-s/renderToSvg";
+import { contrastColor } from "@/_internal/lib/util/contrastColor";
 import { ImageResponse } from "next/og";
 
 export function og([polyomino, name]: Polyomino) {

@@ -1,8 +1,8 @@
-import { canonizeFree } from "./canonizeFree";
-import { Coord } from "./Coord";
-import { hsvToRgb } from "./hsvToRgb";
+import { Coord } from "../../common/Coord";
+import { hsvToRgb } from "../../util/hsvToRgb";
+import { canonizeFree } from "../canonizeFree";
+import { RenderToSvgOptions } from "../renderToSvg";
 import { Polyomino } from "./Polyomino";
-import { RenderToSvgOptions } from "./renderToSvg";
 
 function simpleHash(polyomino: Coord[]): [hue: number, other: number] {
   let hash = 42;

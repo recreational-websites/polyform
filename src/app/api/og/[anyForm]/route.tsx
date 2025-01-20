@@ -1,7 +1,7 @@
-import { encode } from "@/_internal/lib/encode";
+import { encode } from "@/_internal/lib/p4m-s/e/encode";
+import { isValidName } from "@/_internal/lib/p4m-s/e/isValidName";
 import { og } from "@/_internal/pages/api/og";
 import { NextRequest } from "next/server";
-import { isValidName } from "../../../../_internal/lib/isValidName";
 
 export async function GET(
   _request: NextRequest,

@@ -1,7 +1,7 @@
-import { b64ToBits } from "./b64ToBits";
-import { canonize } from "./canonize";
-import { Coord } from "./Coord";
-import { normalize } from "./normalize";
+import { b64ToBits } from "../../common/b64ToBits";
+import { Coord } from "../../common/Coord";
+import { canonize } from "../canonize";
+import { normalize } from "../normalize";
 
 export function decode(encoded: string): Coord[] {
   const bits = ("1" + b64ToBits(encoded)).split("");

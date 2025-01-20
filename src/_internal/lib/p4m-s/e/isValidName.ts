@@ -1,4 +1,4 @@
-import { Coord } from "./Coord";
+import { Coord } from "../../common/Coord";
 import { decode } from "./decode";
 
 export function isValidName(anyForm: string): Coord[] | undefined {

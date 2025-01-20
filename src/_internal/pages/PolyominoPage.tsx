@@ -11,13 +11,13 @@ import { memo, ReactNode, useCallback, useEffect, useState } from "react";
 import { Comment } from "../components/Comment";
 import { Editor } from "../components/Editor";
 import { Polyomino } from "../components/Polyomino";
-import { Coord } from "../lib/Coord";
-import { Polyomino as PolyominoType } from "../lib/Polyomino";
-import { SymmetryGroup } from "../lib/SymmetryGroup";
-import { encode } from "../lib/encode";
-import { moreInfo } from "../lib/moreInfo";
+import { Coord } from "../lib/common/Coord";
 import { on } from "../lib/on";
-import { relatedPolyominoes } from "../lib/relatedPolyominoes";
+import { encode } from "../lib/p4m-s/e/encode";
+import { moreInfo } from "../lib/p4m-s/e/moreInfo";
+import { Polyomino as PolyominoType } from "../lib/p4m-s/e/Polyomino";
+import { relatedPolyominoes } from "../lib/p4m-s/e/relatedPolyominoes";
+import { SymmetryGroup } from "../lib/p4m-s/e/SymmetryGroup";
 
 export interface PolyominoPageProps {
   moreInfo: ReturnType<typeof moreInfo>;

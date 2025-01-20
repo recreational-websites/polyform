@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { memo, MouseEvent } from "react";
-import { defaultRenderOptions } from "../lib/defaultRenderOptions";
-import { Polyomino as PolyominoType } from "../lib/Polyomino";
-import { renderToSvg, RenderToSvgOptions } from "../lib/renderToSvg";
+import { defaultRenderOptions } from "../lib/p4m-s/e/defaultRenderOptions";
+import { Polyomino as PolyominoType } from "../lib/p4m-s/e/Polyomino";
+import { renderToSvg, RenderToSvgOptions } from "../lib/p4m-s/renderToSvg";
 
 export interface PolyominoProps extends RenderToSvgOptions {
   polyomino: PolyominoType;

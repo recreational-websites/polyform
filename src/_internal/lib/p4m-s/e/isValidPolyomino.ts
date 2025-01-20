@@ -1,4 +1,4 @@
-import { Coord } from "./Coord";
+import { Coord } from "../../common/Coord";
 
 export function isValidPolyomino(polyomino: Coord[]) {
   if (!polyomino.length) return false;

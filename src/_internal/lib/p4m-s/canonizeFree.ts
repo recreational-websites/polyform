@@ -1,5 +1,5 @@
+import { Coord } from "../common/Coord";
 import { canonize } from "./canonize";
-import { Coord } from "./Coord";
 import { rotate } from "./rotate";
 import { transpose } from "./transpose";
 

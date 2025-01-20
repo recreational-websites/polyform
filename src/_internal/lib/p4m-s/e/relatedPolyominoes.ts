@@ -1,9 +1,9 @@
-import { canonize } from "./canonize";
-import { Coord } from "./Coord";
+import { Coord } from "../../common/Coord";
+import { canonize } from "../canonize";
+import { normalize } from "../normalize";
 import { encode } from "./encode";
 import { isValidPolyomino } from "./isValidPolyomino";
 import { moreInfo } from "./moreInfo";
-import { normalize } from "./normalize";
 import { Polyomino } from "./Polyomino";
 
 const directions: Coord[] = [

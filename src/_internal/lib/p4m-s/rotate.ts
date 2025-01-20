@@ -1,5 +1,5 @@
+import { Coord } from "../common/Coord";
 import { canonize } from "./canonize";
-import { Coord } from "./Coord";
 import { normalize } from "./normalize";
 
 export function rotate(input: Coord[]): Coord[] {
