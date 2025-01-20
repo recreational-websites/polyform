@@ -1,7 +1,7 @@
-import { b64ToBits } from "../../common/b64ToBits";
-import { canonize } from "../../common/canonize";
-import { Coord } from "../../common/Coord";
-import { normalize } from "../normalize";
+import { b64ToBits } from "../common/b64ToBits";
+import { canonize } from "../common/canonize";
+import { Coord } from "../common/Coord";
+import { normalize } from "./normalize";
 
 export function decode(encoded: string): Coord[] {
   const bits = ("1" + b64ToBits(encoded)).split("");
@@ -20,11 +20,9 @@ export function decode(encoded: string): Coord[] {
       visit([coord[0], coord[1] + 1]);
       visit([coord[0] + 1, coord[1] + 1]);
       visit([coord[0] + 1, coord[1]]);
-      visit([coord[0] + 1, coord[1] - 1]);
       visit([coord[0], coord[1] - 1]);
       visit([coord[0] - 1, coord[1] - 1]);
       visit([coord[0] - 1, coord[1]]);
-      visit([coord[0] - 1, coord[1] + 1]);
     }
   }
   visit([0, 0]);

@@ -1,20 +1,18 @@
-import { Coord } from "../../common/Coord";
-import { Info } from "../../common/Info";
-import { canonize } from "../../common/canonize";
-import { normalize } from "../normalize";
+import { Coord } from "../common/Coord";
+import { Info } from "../common/Info";
+import { canonize } from "../common/canonize";
 import { encode } from "./encode";
 import { isValid } from "./isValid";
 import { moreInfo } from "./moreInfo";
+import { normalize } from "./normalize";
 
 const directions: Coord[] = [
   [1, 0],
   [1, 1],
   [0, 1],
-  [-1, 1],
   [-1, 0],
   [-1, -1],
   [0, -1],
-  [1, -1],
 ];
 
 export function related(info: ReturnType<typeof moreInfo>): {

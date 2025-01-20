@@ -1,6 +1,6 @@
 import { b64ToBits } from "../../common/b64ToBits";
+import { canonize } from "../../common/canonize";
 import { Coord } from "../../common/Coord";
-import { canonize } from "../canonize";
 import { normalize } from "../normalize";
 
 export function decode(encoded: string): Coord[] {

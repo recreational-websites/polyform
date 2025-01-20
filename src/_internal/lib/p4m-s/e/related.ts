@@ -1,6 +1,6 @@
 import { Coord } from "../../common/Coord";
 import { Info } from "../../common/Info";
-import { canonize } from "../canonize";
+import { canonize } from "../../common/canonize";
 import { normalize } from "../normalize";
 import { encode } from "./encode";
 import { isValid } from "./isValid";
