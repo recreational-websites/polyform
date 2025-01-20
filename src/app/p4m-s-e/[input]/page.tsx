@@ -16,7 +16,7 @@ export default async function Page({ params }: Params) {
   const coords = isValidName(input);
   if (!coords) throw notFound();
   const name = encode(coords);
-  if (name !== input) throw redirect(`/${name}`);
+  if (name !== input) throw redirect(`/p4m-s-e/${name}`);
   const info = moreInfo([coords, name]);
 
   return <InternalPage moreInfo={info} />;
@@ -27,7 +27,7 @@ export function generateMetadata({ params }: Params): Metadata {
   const coords = isValidName(input);
   if (!coords) throw notFound();
   const name = encode(coords);
-  if (name !== input) throw redirect(`/${name}`);
+  if (name !== input) throw redirect(`/p4m-s-e/${name}`);
   const [symmetryGroup] = moreInfo([coords, name]);
 
   const title = `p4m s edge ${input}`;
