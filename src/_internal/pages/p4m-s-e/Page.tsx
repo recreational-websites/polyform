@@ -1,5 +1,13 @@
 "use client";
 
+import { Comment } from "@/_internal/components/Comment";
+import { Item } from "@/_internal/components/Item";
+import { related } from "@/_internal/lib/common/related";
+import { canonizeFree } from "@/_internal/lib/p4m-s/canonizeFree";
+import { directions } from "@/_internal/lib/p4m-s/e/directions";
+import { normalize } from "@/_internal/lib/p4m-s/normalize";
+import { renderToSvg } from "@/_internal/lib/p4m-s/renderToSvg";
+import { EMPTY } from "@/_internal/lib/util/EMPTY";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,15 +16,12 @@ import { X } from "lucide-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { memo, ReactNode, useCallback, useEffect, useState } from "react";
-import { Comment } from "../../components/p4m-s-e/Comment";
 import { Editor } from "../../components/p4m-s-e/Editor";
-import { Item } from "../../components/p4m-s-e/Item";
 import { Coord } from "../../lib/common/Coord";
 import { Info } from "../../lib/common/Info";
 import { on } from "../../lib/on";
 import { encode } from "../../lib/p4m-s/e/encode";
 import { moreInfo } from "../../lib/p4m-s/e/moreInfo";
-import { related } from "../../lib/p4m-s/e/related";
 import { SymmetryGroup } from "../../lib/p4m-s/SymmetryGroup";
 
 export interface PageProps {
@@ -45,7 +50,16 @@ interface ItemCardProps {
 function ItemCard({ info, label, onClick }: ItemCardProps) {
   return (
     <div className="flex flex-col items-center">
-      <Item onClick={onClick} info={info} width={100} height={100} />
+      <Item
+        onClick={onClick}
+        info={info}
+        width={100}
+        height={100}
+        canonizeFree={canonizeFree}
+        renderToSvg={renderToSvg}
+        renderToSvgOptions={EMPTY}
+        type="p4m-s-e"
+      />
       <Badge variant="secondary" className="mt-2">
         {label}
       </Badge>
@@ -58,7 +72,14 @@ interface RelatedProps extends PageProps {
 }
 
 function RelatedInternal({ moreInfo, onItemClick }: RelatedProps) {
-  const { symmetry, subtractive, additive } = related(moreInfo);
+  const [_, info, ...others] = moreInfo;
+  const { symmetry, subtractive, additive } = related(
+    directions,
+    normalize,
+    encode,
+    info,
+    others
+  );
 
   const handleItemClick = useCallback(
     (e: React.MouseEvent, info: Info) => {
@@ -171,12 +192,7 @@ interface SidePaneProps {
   isOpen: boolean;
 }
 
-function SidePane({
-  info,
-  onClose,
-  onItemClick: onItemClick,
-  isOpen,
-}: SidePaneProps) {
+function SidePane({ info, onClose, onItemClick, isOpen }: SidePaneProps) {
   useEffect(() => {
     return on(document, "keydown", (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) {
@@ -205,7 +221,15 @@ function SidePane({
           <X className="h-4 w-4" />
         </Button>
       </div>
-      <Item info={info} width="100%" height="200px" />
+      <Item
+        info={info}
+        width="100%"
+        height="200px"
+        canonizeFree={canonizeFree}
+        renderToSvg={renderToSvg}
+        renderToSvgOptions={EMPTY}
+        type="p4m-s-e"
+      />
       <Link href={`/p4m-s-e/${encode(info[0])}`}>
         <Button className="mt-4 w-full">Open in Full Page</Button>
       </Link>
@@ -272,14 +296,22 @@ export function Page({ moreInfo }: PageProps): ReactNode {
           </CardHeader>
           <CardContent>
             <div className="flex flex-col items-center">
-              <Item info={coords} width="40vw" height="40vw" />
+              <Item
+                info={coords}
+                width="40vw"
+                height="40vw"
+                canonizeFree={canonizeFree}
+                renderToSvg={renderToSvg}
+                renderToSvgOptions={EMPTY}
+                type="p4m-s-e"
+              />
               <Badges coords={coords[0]} symmetryGroup={symmetryGroup} />
             </div>
           </CardContent>
         </Card>
         <Related moreInfo={moreInfo} onItemClick={handleItemClick} />
         <Editor initialCoords={coords[0]} />
-        <Comment name={coords[1]} />
+        <Comment term={`p4m-s-e/${coords[1]}`} />
       </div>
       {sidePaneOpened && (
         <div

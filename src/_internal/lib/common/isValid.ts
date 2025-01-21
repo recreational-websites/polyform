@@ -1,6 +1,9 @@
-import { Coord } from "../common/Coord";
+import { Coord } from "./Coord";
 
-export function isValid(coords: Coord[]) {
+export function isValid(
+  coords: Coord[],
+  directions: (coord: Coord) => Coord[]
+) {
   if (!coords.length) return false;
   const visited: Record<string, boolean | undefined> = Object.fromEntries(
     coords.map((tile) => [JSON.stringify(tile), false])
@@ -11,12 +14,9 @@ export function isValid(coords: Coord[]) {
     }
     visited[str] = true;
     const [x, y] = JSON.parse(str);
-    visit(JSON.stringify([x + 1, y]));
-    visit(JSON.stringify([x - 1, y]));
-    visit(JSON.stringify([x, y + 1]));
-    visit(JSON.stringify([x, y - 1]));
-    visit(JSON.stringify([x + 1, y + 1]));
-    visit(JSON.stringify([x - 1, y - 1]));
+    for (const [dirX, dirY] of directions([x, y])) {
+      visit(JSON.stringify([x + dirX, y + dirY]));
+    }
   }
   visit(JSON.stringify(coords[0]));
   return coords.every((tile) => visited[JSON.stringify(tile)]);

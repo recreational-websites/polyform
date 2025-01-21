@@ -1,3 +1,5 @@
+import { isValid } from "@/_internal/lib/common/isValid";
+import { directions } from "@/_internal/lib/p4m-s/e/directions";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
@@ -5,7 +7,6 @@ import Link from "next/link";
 import { memo, useCallback, useMemo, useState } from "react";
 import { Coord } from "../../lib/common/Coord";
 import { encode } from "../../lib/p4m-s/e/encode";
-import { isValid } from "../../lib/p4m-s/e/isValid";
 import { range } from "../../lib/range";
 
 interface EditorGridProps {
@@ -35,7 +36,7 @@ function handler(
     }
   } else {
     const filtered = coords.filter((coord) => coord[0] !== x || coord[1] !== y);
-    if (!isValid(filtered)) {
+    if (!isValid(filtered, directions)) {
       return undefined;
     } else {
       return () => setCoords(filtered);

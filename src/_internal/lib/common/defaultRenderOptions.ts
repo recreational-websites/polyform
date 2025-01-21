@@ -1,17 +1,18 @@
 import { hsvToRgbHexCode } from "../common/hsvToRgbHexCode";
 import { Info } from "../common/Info";
 import { simpleHash } from "../common/simpleHash";
-import { canonizeFree } from "./canonizeFree";
-import { RenderToSvgOptions } from "./renderToSvg";
+import { Coord } from "./Coord";
+
+export interface DefaultRenderOptions {
+  fillColorHexCode?: string;
+  strokeColorHexCode?: string;
+  backgroundColor?: string;
+}
 
 export function defaultRenderOptions(
-  info: Info
-): Required<
-  Pick<
-    RenderToSvgOptions,
-    "fillColorHexCode" | "strokeColorHexCode" | "backgroundColor"
-  >
-> {
+  info: Info,
+  canonizeFree: (coords: Coord[]) => Coord[]
+): Required<DefaultRenderOptions> {
   const [hue, other] = simpleHash(canonizeFree(info[0]));
   const fillColorHexCode = hsvToRgbHexCode(
     hue,

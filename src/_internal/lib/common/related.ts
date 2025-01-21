@@ -1,27 +1,9 @@
-import { Coord } from "../common/Coord";
-import { Info } from "../common/Info";
-import { canonize } from "../common/canonize";
-import { encode } from "./encode";
+import { canonize } from "./canonize";
+import { Coord } from "./Coord";
+import { Info } from "./Info";
 import { isValid } from "./isValid";
-import { moreInfo } from "./moreInfo";
-import { normalize } from "./normalize";
 
-const directions: Coord[] = [
-  [1, 0],
-  [1, 1],
-  [0, 1],
-  [-1, 0],
-  [-1, -1],
-  [0, -1],
-];
-
-export function related(info: ReturnType<typeof moreInfo>): {
-  symmetry: Info[];
-  subtractive: Info[];
-  additive: Info[];
-} {
-  const [_, [coords, name], ...others] = info;
-
+function symmetry([_, name]: Info, others: Info[]) {
   const symmetry: Info[] = [];
   const symmetrySet = new Set<string>([name]);
   for (const other of others) {
@@ -33,6 +15,15 @@ export function related(info: ReturnType<typeof moreInfo>): {
     }
   }
 
+  return symmetry;
+}
+
+function subtractive(
+  directions: (coord: Coord) => Coord[],
+  normalize: (coords: Coord[]) => Coord[],
+  encode: (coords: Coord[]) => string,
+  [coords]: Info
+) {
   const subtractive: Info[] = [];
   if (coords.length !== 1) {
     const subtractiveSet = new Set<string>();
@@ -40,7 +31,7 @@ export function related(info: ReturnType<typeof moreInfo>): {
       const subtracted = canonize(
         normalize(coords.filter((arr) => arr !== coord))
       );
-      if (isValid(subtracted)) {
+      if (isValid(subtracted, directions)) {
         const name = encode(subtracted);
         if (!subtractiveSet.has(name)) {
           subtractiveSet.add(name);
@@ -50,10 +41,19 @@ export function related(info: ReturnType<typeof moreInfo>): {
     }
   }
 
+  return subtractive;
+}
+
+function additive(
+  directions: (coord: Coord) => Coord[],
+  normalize: (coords: Coord[]) => Coord[],
+  encode: (coords: Coord[]) => string,
+  [coords]: Info
+) {
   const additive: Info[] = [];
   const additiveSet = new Set<string>();
   for (const [x, y] of coords) {
-    for (const [dirX, dirY] of directions) {
+    for (const [dirX, dirY] of directions([x, y])) {
       const added = canonize(normalize([...coords, [x + dirX, y + dirY]]));
       const name = encode(added);
       if (
@@ -67,5 +67,23 @@ export function related(info: ReturnType<typeof moreInfo>): {
     }
   }
 
-  return { symmetry, subtractive, additive };
+  return additive;
+}
+
+export function related(
+  directions: (coord: Coord) => Coord[],
+  normalize: (coords: Coord[]) => Coord[],
+  encode: (coords: Coord[]) => string,
+  info: Info,
+  others: Info[]
+): {
+  symmetry: Info[];
+  subtractive: Info[];
+  additive: Info[];
+} {
+  return {
+    symmetry: symmetry(info, others),
+    subtractive: subtractive(directions, normalize, encode, info),
+    additive: additive(directions, normalize, encode, info),
+  };
 }

@@ -6,12 +6,11 @@ import { ModeContext } from "@-ft/mode-next";
 import Giscus from "@giscus/react";
 
 export interface CommentProps {
-  name: string;
+  term: string;
 }
 
-export function Comment({ name }: CommentProps) {
+export function Comment({ term }: CommentProps) {
   const { theme } = useContext(ModeContext);
-  const term = `p4m-s-e/${name}`;
   return (
     <Giscus
       id="comments"

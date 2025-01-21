@@ -1,14 +1,22 @@
-import { defaultRenderOptions } from "@/_internal/lib/common/defaultRenderOptions";
+import { Coord } from "@/_internal/lib/common/Coord";
+import {
+  DefaultRenderOptions,
+  defaultRenderOptions,
+} from "@/_internal/lib/common/defaultRenderOptions";
 import { Info } from "@/_internal/lib/common/Info";
-import { canonizeFree } from "@/_internal/lib/p4m-s/canonizeFree";
-import { renderToSvg } from "@/_internal/lib/p4m-s/renderToSvg";
-import { moreInfo } from "@/_internal/lib/p4m-s/v/moreInfo";
 import { contrastColor } from "@/_internal/lib/util/contrastColor";
 import { ImageResponse } from "next/og";
 
-export function og([coords, name]: Info) {
-  const [symmetryGroup] = moreInfo([coords, name]);
-
+export function og(
+  [coords, name]: Info,
+  canonizeFree: (coords: Coord[]) => Coord[],
+  renderToSvg: (
+    coords: Coord[],
+    options: DefaultRenderOptions & Record<"contain", [number, number]>
+  ) => string,
+  symmetryGroup: string,
+  badges: string[]
+) {
   const { backgroundColor, fillColorHexCode, strokeColorHexCode } =
     defaultRenderOptions([coords, name], canonizeFree);
 
@@ -55,7 +63,7 @@ export function og([coords, name]: Info) {
             wordBreak: "break-all",
           }}
         >
-          p4m s vertex
+          p4m s edge
           <div style={{ padding: 24 }}>{name}</div>
           <div
             style={{
@@ -68,23 +76,9 @@ export function og([coords, name]: Info) {
           >
             <span style={badgeStyle}>Symmetry group: {symmetryGroup}</span>
             <span style={badgeStyle}>Tile count: {coords.length}</span>
-            {[
-              "All",
-              "Rotation2FoldMirror90",
-              "Rotation2FoldMirror45",
-              "Rotation2Fold",
-            ].includes(symmetryGroup) && (
-              <span style={badgeStyle}>Rotation 2 Fold</span>
-            )}
-            {["All", "Rotation4Fold"].includes(symmetryGroup) && (
-              <span style={badgeStyle}>Rotation 4 Fold</span>
-            )}
-            {["All", "Rotation2FoldMirror90", "Mirror90"].includes(
-              symmetryGroup
-            ) && <span style={badgeStyle}>Mirror 90°</span>}
-            {["All", "Rotation2FoldMirror45", "Mirror45"].includes(
-              symmetryGroup
-            ) && <span style={badgeStyle}>Mirror 45°</span>}
+            {badges.map((badge) => (
+              <span style={badgeStyle}>{badge}</span>
+            ))}
           </div>
         </div>
       </div>
