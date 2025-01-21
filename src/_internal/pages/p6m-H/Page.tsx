@@ -27,13 +27,17 @@ const gridClassName =
   "grid grid-cols-4 tablet:grid-cols-6 desktop:grid-cols-5 tablet:group-[.side-pane]:grid-cols-2 desktop:group-[.closed]:grid-cols-8 desktop:group-[.closed_.side-pane]:grid-cols-2 gap-4";
 
 const moreInfoIndexToName = [
-  "90°",
+  "60°",
+  "120°",
   "180°",
-  "270°",
-  "transpose",
-  "flip X",
-  "flip diagonally",
-  "flip Y",
+  "240°",
+  "300°",
+  "flip",
+  "flip 60°",
+  "flip 120°",
+  "flip 180°",
+  "flip 240°",
+  "flip 300°",
 ];
 
 interface ItemCardProps {
