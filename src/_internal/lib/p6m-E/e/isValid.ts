@@ -13,7 +13,7 @@ export function isValid(coords: Coord[]) {
     const [x, y] = JSON.parse(str);
     visit(JSON.stringify([x, y + 1]));
     visit(JSON.stringify([x, y - 1]));
-    visit(JSON.stringify(x % 2 === 0 ? [x + 1, y + 1] : [x - 1, y - 1]));
+    visit(JSON.stringify(y % 2 === 0 ? [x + 1, y + 1] : [x - 1, y - 1]));
   }
   visit(JSON.stringify(coords[0]));
   return coords.every((tile) => visited[JSON.stringify(tile)]);
