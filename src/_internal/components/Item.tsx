@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { memo, MouseEvent } from "react";
 import { Coord } from "../lib/common/Coord";
-import { Info } from "../lib/common/Info";
 import {
   defaultRenderOptions,
   DefaultRenderOptions,
 } from "../lib/common/defaultRenderOptions";
+import { Info } from "../lib/common/Info";
 
 export interface ItemProps<T extends DefaultRenderOptions> {
   canonizeFree: (coords: Coord[]) => Coord[];
@@ -46,7 +46,7 @@ function ItemInternal<T extends DefaultRenderOptions>({
         className="w-full h-full"
         style={{ width, height }}
         src={`data:image/svg+xml;base64,${btoa(svgString)}`}
-        alt={`p6m H ${info[1]}`}
+        alt={`${type} ${info[1]}`}
       />
     </Link>
   );
