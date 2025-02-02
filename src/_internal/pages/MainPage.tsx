@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import Link from "next/link";
 import { Comment } from "../components/Comment";
 import { Item } from "../components/Item";
 import { canonizeFree as canonizeFreeE } from "../lib/E/canonizeFree";
@@ -23,7 +24,7 @@ export function MainPage() {
             <h1 className="text-3xl font-bold">Polyforms</h1>
           </CardHeader>
           <CardContent>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center gap-8">
               <div className="flex flex-col items-center">
                 <Item
                   canonizeFree={canonizeFreeS}
@@ -34,7 +35,7 @@ export function MainPage() {
                   width="100%"
                   height="fit-content"
                 />
-                s-e (Polyomino)
+                <Link href="/s-e">s-e (Polyomino)</Link>
               </div>
               <div className="flex flex-col items-center">
                 <Item
@@ -46,19 +47,19 @@ export function MainPage() {
                   width="100%"
                   height="fit-content"
                 />
-                s-v (Polyking)
+                <Link href="/s-v">s-v (Polyking)</Link>
               </div>
               <div className="flex flex-col items-center">
                 <Item
                   canonizeFree={canonizeFreeH}
-                  info={[decodeH("9o"), "9o"]}
+                  info={[decodeH("am"), "am"]}
                   renderToSvg={renderToSvgH}
                   renderToSvgOptions={EMPTY}
                   type="H"
                   width="100%"
                   height="fit-content"
                 />
-                H (Polyhex)
+                <Link href="/H">H (Polyhex)</Link>
               </div>
               <div className="flex flex-col items-center">
                 <Item
@@ -70,7 +71,7 @@ export function MainPage() {
                   width="100%"
                   height="fit-content"
                 />
-                E-e (Polyiamond)
+                <Link href="/E-e">E-e (Polyiamond)</Link>
               </div>
               <div className="flex flex-col items-center">
                 <Item
@@ -82,7 +83,7 @@ export function MainPage() {
                   width="100%"
                   height="fit-content"
                 />
-                E-v
+                <Link href="/E-v">E-v</Link>
               </div>
             </div>
           </CardContent>
