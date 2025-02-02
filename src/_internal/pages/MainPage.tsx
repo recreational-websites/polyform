@@ -5,6 +5,7 @@ import { canonizeFree as canonizeFreeE } from "../lib/E/canonizeFree";
 import { decode as decodeEE } from "../lib/E/e/decode";
 import { renderToSvg as renderToSvgE } from "../lib/E/renderToSvg";
 import { decode as decodeEV } from "../lib/E/v/decode";
+import { canonizeFree as canonizeFreeH } from "../lib/H/canonizeFree";
 import { decode as decodeH } from "../lib/H/decode";
 import { renderToSvg as renderToSvgH } from "../lib/H/renderToSvg";
 import { canonizeFree as canonizeFreeS } from "../lib/s/canonizeFree";
@@ -49,7 +50,7 @@ export function MainPage() {
               </div>
               <div className="flex flex-col items-center">
                 <Item
-                  canonizeFree={canonizeFreeS}
+                  canonizeFree={canonizeFreeH}
                   info={[decodeH("9o"), "9o"]}
                   renderToSvg={renderToSvgH}
                   renderToSvgOptions={EMPTY}
