@@ -1,5 +1,6 @@
+import { isValidName } from "@/_internal/lib/common/isValidName";
+import { decode } from "@/_internal/lib/s/v/decode";
 import { encode } from "@/_internal/lib/s/v/encode";
-import { isValidName } from "@/_internal/lib/s/v/isValidName";
 import { og } from "@/_internal/pages/s-v/og";
 import { NextRequest } from "next/server";
 
@@ -8,7 +9,7 @@ export async function GET(
   { params }: { params: { input: string } }
 ) {
   const { input } = params;
-  const coords = isValidName(input);
+  const coords = isValidName(input, decode);
   if (!coords || encode(coords) !== input) {
     return new Response("Not Found", { status: 404 });
   }

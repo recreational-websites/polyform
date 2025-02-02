@@ -52,4 +52,4 @@ function ItemInternal<T extends DefaultRenderOptions>({
   );
 }
 
-export const Item = memo(ItemInternal);
+export const Item = memo(ItemInternal) as typeof ItemInternal;

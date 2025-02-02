@@ -12,10 +12,11 @@ export function og(
   canonizeFree: (coords: Coord[]) => Coord[],
   renderToSvg: (
     coords: Coord[],
-    options: DefaultRenderOptions & Record<"contain", [number, number]>
+    options: DefaultRenderOptions & Partial<Record<"contain", [number, number]>>
   ) => string,
   symmetryGroup: string,
-  badges: string[]
+  badges: (symmetryGroup: string) => string[],
+  description: string
 ) {
   const { backgroundColor, fillColorHexCode, strokeColorHexCode } =
     defaultRenderOptions([coords, name], canonizeFree);
@@ -63,7 +64,7 @@ export function og(
             wordBreak: "break-all",
           }}
         >
-          s edge
+          {description}
           <div style={{ padding: 24 }}>{name}</div>
           <div
             style={{
@@ -76,8 +77,10 @@ export function og(
           >
             <span style={badgeStyle}>Symmetry group: {symmetryGroup}</span>
             <span style={badgeStyle}>Tile count: {coords.length}</span>
-            {badges.map((badge) => (
-              <span style={badgeStyle}>{badge}</span>
+            {badges(symmetryGroup).map((badge) => (
+              <span key={badge} style={badgeStyle}>
+                {badge}
+              </span>
             ))}
           </div>
         </div>
